@@ -14,6 +14,9 @@ public class CustomCharacter {
     //Ponto de Vida: hp;
     int hp = 0;
     String name;
+    //Arma e Armadura
+    double weapon;
+    double armor;
     
     
     public void Força(int PointStrenght){
@@ -36,7 +39,7 @@ public class CustomCharacter {
         Points -= PointAgility;
     }
     
-    public void HP (){
+    public void HP (int PointConstitution){
         //Rolagem de dados e variável de controle
         Random random = new Random();
         int dadoDe6Lados = random.nextInt(5) + 1;
@@ -44,10 +47,13 @@ public class CustomCharacter {
         for(int control = 0; control < 3; control++){
             hp += dadoDe6Lados;
         }
+        System.out.println("HP nos dados: "+hp);
+        hp += PointConstitution;
+        System.out.println("HP total: "+hp);
     }
     
     public void Informacoes(){
         System.out.println("\n\nAqui está as informações de seu personagem: \n");
-        System.out.println("Nome: "+name+"\nPontos de Vida(HP): "+hp+ "\nForça: "+strenght+"\nDestreza: "+dexterity+"\nConstituição: "+constitution+"\nAgilidade: "+agility);
+        System.out.println("Nome: "+name+"\nPontos de Vida(HP): "+hp+ "\nForça: "+strenght+"\nDestreza: "+dexterity+"\nConstituição: "+constitution+"\nAgilidade: "+agility+"\nDano Arma nivel 1: "+weapon+"\nArmadura nivel 1: "+armor);
     }
 }
