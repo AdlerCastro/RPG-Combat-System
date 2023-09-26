@@ -11,19 +11,18 @@ import java.lang.Thread;
 
 //Função main na classe principal
 public class Game {
-    public static void main(String[] args) throws IOException, InterruptedException{
+    public static void main(String[] args) throws InterruptedException{
         Scanner input = new Scanner(System.in);
         
         char choise;
         
+        
         System.out.println("\t1- Start\n\t2- History\n\t3-Exit");
-        
-        //Limpar buffer do teclado
-        choise = ' ';
-        
-        while(choise != '1' && choise != '2' && choise != '3'){
-            //Leitura de caractere por IOException
-            choise = (char)System.in.read();
+            
+        while(true){
+            choise = input.next().charAt(0);
+            //Limpar buffer do teclado
+            input.nextLine();
             
             switch(choise){
                 case '1':
@@ -42,18 +41,20 @@ public class Game {
                     System.out.println("Valor inválido");
                 break;
             }
-        }
-        
+        } 
     }
     
     //Função de iniciar o game
-    private static void Start() throws IOException, InterruptedException{
+    private static void Start() throws InterruptedException{
         Clean();
         System.out.println("\tDesejas criar um personagem ou escolher um pré-definido?\n\n\t1-Desejo criar meu personagem\n\t2- Escolher pré-definido");
-        char choise = (char)System.in.read();
         
-        while(choise != '1' && choise != '2' && choise != '3'){
-            choise = (char)System.in.read();
+        Scanner input = new Scanner(System.in);
+        char choise;
+        
+        while(true){
+            choise = input.next().charAt(0);
+            input.nextLine();
             
             switch(choise){
                     case '1':
@@ -75,14 +76,15 @@ public class Game {
     //Função para a customização
     private static void Custom() throws InterruptedException{
         Scanner input = new Scanner(System.in);
-        
+        char choise;
+                
         TutorialCustom();
         
+        System.out.println("\n\nPressione qualquer tecla para continuar");
+        choise = input.next().charAt(0);
+        input.nextLine();
         
-        System.out.println("\n\nPressione 0 para continuar");
-        char choise = input.next().charAt(0);
-        
-        while(choise == '0'){
+        while(true){
             CustomCharacter Character = new CustomCharacter();
             
             Clean();
@@ -109,11 +111,12 @@ public class Game {
             
             if(Character.Points > 0 || Character.Points == 0 ){
                 
-                choise = ' ';
                 
-                while(choise != '1' && choise != '0'){
+                
+                while(true){
                     System.out.println("Aperte '1' para continuar ou '0' para refazer");
                     choise = input.next().charAt(0);
+                    input.nextLine();
                     
                     if(choise == '1'){
                         System.out.print("\n\nEscolha o nome de seu personagem: ");
@@ -136,7 +139,6 @@ public class Game {
             else{
                 System.out.println("Você ultrapassou o limite de atributos, refaça");
                 Thread.sleep(2000);
-                choise = '0'; 
             }
         }
     }
@@ -177,6 +179,4 @@ public class Game {
     private static void Clean(){
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     }
-    
-    
 }
