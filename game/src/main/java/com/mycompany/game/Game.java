@@ -245,7 +245,8 @@ public class Game {
         System.out.println("Kombat 1...FIGHT");
         
         int rodada = 1;
-
+        input.nextLine();
+        
         while (rodada > 4) {
             System.out.println("Rodada " + rodada + "\n");
             int agilidadeJogador = Character.getAgility();
@@ -344,6 +345,7 @@ public class Game {
         System.out.println("2. Defender");
 
         int escolha = input.nextInt();
+        input.nextLine();
 
         switch (escolha) {
 
@@ -375,7 +377,8 @@ public class Game {
     private static void turnoAdversario(CustomCharacter Character, Enemies enemies, Scanner input) {
         Random random = new Random();
         int escolha = random.nextInt(3);
-
+        input.nextLine();
+        
         switch (escolha) {
 
             case 0:
