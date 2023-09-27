@@ -2,7 +2,8 @@ package com.mycompany.game;
 
 //Identificar o IO
 import java.util.Scanner;
-
+//Valor Aleatório
+import java.util.Random;
 //Sleep
 import java.lang.Thread;
 
@@ -26,7 +27,7 @@ public class Game {
                     break;
 
                     case '2':
-                        StandardCharacters();
+                        //StandardCharacters();
                     break;
 
                     default:
@@ -71,79 +72,92 @@ public class Game {
                         
             if(Character.Points > 0 || Character.Points == 0 ){
                 while(true){
-                System.out.println("Aperte '1' para continuar ou '0' para refazer");
-                choise = input.next().charAt(0);
-                input.nextLine();
-                    
-                if(choise == '1'){
-                    Weapon weapon = new Weapon();
-                    System.out.println("\n\n\tEscolha sua arma\n\n1- Katana\n2- Machadinha");
-                    
-                    char ChoiseWeapon = input.next().charAt(0);
-                    input.nextLine();
-
-                    switch(ChoiseWeapon){
-                        case '1':
-                            Character.weapon = weapon.Katana(Character.dexterity);
-                        break;
-
-                        case '2':
-                            Character.weapon = weapon.Machadinha(Character.dexterity);
-                        break;
-                    }
-                    
-                    Armor armor = new Armor();
-                    System.out.println("\n\n\tEscolha sua armadura\n\n1- Camisa do Vasco\n2- Comum");
-                    
-                    char ChoiseArmor = input.next().charAt(0);
-                    input.nextLine();
-
-                    switch(ChoiseArmor){
-                        case '1':
-                            Character.armor = armor.CamisaVasco(Character.constitution);
-                        break;
-
-                        case '2':
-                            Character.armor = armor.Commum(Character.constitution);
-                        break;
-                    }
-                    
-                    System.out.println("\nCalculando vida...");
-                    Character.HP(Character.constitution);
-                    Thread.sleep(2000);
-                    
-                    System.out.print("\n\nEscolha o nome de seu personagem: ");
-                    Character.name = input.next();
-                    
-                    Character.Informacoes();
-
-                    System.out.println("\n\tIniciando Combate...");
-                    Thread.sleep(3000);
-                    
-                    TutorialCombat();
-                    System.out.println("\nPressione qualquer tecla para continuar");
+                    System.out.println("Aperte '1' para continuar ou '0' para refazer");
                     choise = input.next().charAt(0);
                     input.nextLine();
-                    Combat1();
+
+                    if(choise == '1'){
+                        Weapon weapon = new Weapon();
+                        System.out.println("\n\n\tEscolha sua arma\n\n1- Katana\n2- Machadinha");
+
+                        char ChoiseWeapon = input.next().charAt(0);
+                        input.nextLine();
+
+                        switch(ChoiseWeapon){
+                            case '1':
+                                Character.weapon = weapon.Katana(Character.dexterity);
+                            break;
+
+                            case '2':
+                                Character.weapon = weapon.Machadinha(Character.dexterity);
+                            break;
+                        }
+
+                        Armor armor = new Armor();
+                        System.out.println("\n\n\tEscolha sua armadura\n\n1- Camisa do Vasco\n2- Comum");
+
+                        char ChoiseArmor = input.next().charAt(0);
+                        input.nextLine();
+
+                        switch(ChoiseArmor){
+                            case '1':
+                                Character.armor = armor.CamisaVasco(Character.constitution);
+                            break;
+
+                            case '2':
+                                Character.armor = armor.Commum(Character.constitution);
+                            break;
+                        }
+
+                        System.out.println("\nCalculando vida...");
+                        Character.HP(Character.constitution);
+                        Thread.sleep(2000);
+
+                        System.out.print("\n\nEscolha o nome de seu personagem: ");
+                        Character.name = input.next();
+
+                        Character.Informacoes();
+
+                        System.out.println("\n\tIniciando Combate...");
+                        Thread.sleep(3000);
+
+                        TutorialCombat();
+                        System.out.println("\nPressione qualquer tecla para continuar");
+                        choise = input.next().charAt(0);
+                        input.nextLine();
+
+                        Character.nivelJogador = 0;
+                        while(Character.hp > 0) {
+                            Enemies enemies = gerarAdversarioAleatorio(Character.nivelJogador);
+                            Combat(Character, enemies);
+                            if (Character.hp <= 0) {
+                                System.out.println("FALECEU, foi pro inferno.");
+                                System.out.println("");
+                                break;
+                            }
+                            else
+                            {
+                                Character.nivelJogador++;
+                            }
+                            if (Character.nivelJogador == 3 && Character.hp > 0) {
+                                System.out.println("Você venceu o jogo! Parabéns!\n");
+                                break;
+                            }
+                        }
                     break;
                 }
-                else if(choise != '0' && choise != '1'){
-                    System.out.println("Valor inválido");
-                    Thread.sleep(3000);
+                else{
+                    System.out.println("Você ultrapassou o limite de atributos, refaça");
+                    Thread.sleep(2000);
                 }
-                    break;
             }
-        }
             
-            else{
-                System.out.println("Você ultrapassou o limite de atributos, refaça");
-                Thread.sleep(2000);
-            }
+           }
         }
     }
     
     //Função para os personagens padrões
-    private static void StandardCharacters() throws InterruptedException{
+    /*private static void StandardCharacters() throws InterruptedException{
         Clean();
         PredefinedCharacters Standard = new PredefinedCharacters();
         Scanner input = new Scanner(System.in);
@@ -199,7 +213,7 @@ public class Game {
                         if(choise == '1'){
                             System.out.println("Iniciando combate...");
                             Thread.sleep(3000);
-                            Combat1();
+                            Combat1Predefined();
                         }
                     break;
                     
@@ -220,26 +234,54 @@ public class Game {
                     break;
             }
         }
-    }
+    }*/
     
     //Função para combate
-    private static void Combat1(){
+    private static void Combat(CustomCharacter Character, Enemies enemies){
         Scanner input = new Scanner(System.in);
         Clean();
         
         System.out.println("Kombat 1...FIGHT");
         
-        
-        
-    }
-    
-    private static void Combat2(){
-        Clean();
-        System.out.println("Kombat 2...FIGHT");    }
-    
-    private static void Combat3(){
-        Clean();
-        System.out.println("Final Kombat...FIGHT");
+        int rodada = 1;
+
+        while (rodada > 4) {
+            System.out.println("Rodada " + rodada + "\n");
+            int agilidadeJogador = Character.getAgility();
+            int agilidadeAdversario = enemies.agility;
+
+            if (agilidadeJogador > agilidadeAdversario) {
+                turnoJogador(Character, enemies, input);
+                if (enemies.hp <= 0) {
+                    System.out.println("Você venceu o combate contra " + enemies.name + "!");
+                    System.out.println("");
+                    break;
+                }
+
+                turnoAdversario(Character, enemies, input);
+                if (Character.getHP() <= 0) {
+                    System.out.println(enemies.name + "Você morreu! Bem Vindo a Helheim");
+                    
+                    break;
+                }
+            } else {
+                turnoAdversario(Character, enemies, input);
+                if (Character.getHP() <= 0) {
+                    System.out.println(enemies.name + "Você morreu! Bem Vindo a Helheim");
+                    break;
+                }
+
+                turnoJogador(Character, enemies, input);
+                if (enemies.hp <= 0) {
+                    System.out.println("Você venceu o combate contra " + enemies.name + "!");
+                    System.out.println("Pressione Enter para continuar...\n");
+                    input.nextLine();
+                    break;
+                }
+            }
+
+            rodada++;
+        }
     }
     
     //lore do jogo
@@ -248,19 +290,14 @@ public class Game {
         System.out.println(" Em uma terra Nórdica, está acontecendo uma batalha entre reinos, onde o vencedor conquistara o controle das terras sagradas.\nUm guerreiro com vontade de lutar apostando sua vida aparece, e você será ele, não importa sua classe ou arma que irá empunhar,\no que importa é a sua dedicação no campo de batalha. O campo inimigo é composto por diversos guerreiros, de pequeno porte aos\nde maior poder, com grande machados, machadinhas, alabardas e katanas simples, os fortes dos fracos se diferenciam por sua aura,\ne quanto mais você matar, mais forte a sua aura ficara.");
     }
     
-    private static void Gameover(){
-        Clean();
-        System.out.println("Bem vindo a Hel!");
-    }
-    
     //Funções de tutoriais
     private static void TutorialCustom(){
         Clean();
-        System.out.println("Tutorial da customização");
+         System.out.println("Como você decidiu utilizar um personagem customizado, agora explicarei como funcionara:\n Escolhera seu nome, e terá 15 pontos para dividir entre seus respectivos atributos, força, destreza, constituiçao, agilidade\nconstituição, sua força será importante para armas pesadas, sua destreza para armas leves, agilidade para atacar mais rápido e\nconstituição influenciara na sua vida,voçe ira jogar 3d6 para descobrir sua vida e adicionará mais a sua constituição, depois\nescolherá sua arma e armadura, e então estará pronto para o combate.");
     }
     
     private static void TutorialCombat(){
-        System.out.println("Tutorial Combate");
+        System.out.println("Como você decidiu utilizar um personagem customizado, agora explicarei como funcionara:\n Escolhera seu nome, e terá 15 pontos para dividir entre seus respectivos atributos, força, destreza, constituiçao, agilidade\nconstituição, sua força será importante para armas pesadas, sua destreza para armas leves, agilidade para atacar mais rápido e\nconstituição influenciara na sua vida,voçe ira jogar 3d6 para descobrir sua vida e adicionará mais a sua constituição, depois\nescolherá sua arma e armadura, e então estará pronto para o combate.");
     }
     
     //Função para "limpar" o console
@@ -273,10 +310,8 @@ public class Game {
         
         char choise;
         
-        
-        System.out.println("\t1- Start\n\t2- History\n\t3-Exit");
-            
         while(true){
+            System.out.println("\t1- Start\n\t2- History\n\t3-Exit");
             choise = input.next().charAt(0);
             //Limpar buffer do teclado
             input.nextLine();
@@ -299,5 +334,114 @@ public class Game {
                 break;
             }
         } 
+    }
+
+    //Turno do Jogador
+    private static void turnoJogador(CustomCharacter Character, Enemies enemies, Scanner input){
+        System.out.println("Agora é sua vez, o que deseja fazer?");
+        System.out.println("1. Atacar");
+        System.out.println("2. Defender");
+
+        int escolha = input.nextInt();
+
+        switch (escolha) {
+
+            case 1:
+                int danoCausado = Math.max(0, (int)Character.weapon - enemies.defense);
+                if (danoCausado > 0) {
+                    enemies.hp -= (int)Character.weapon;
+                    System.out.println("Você causou " + Character.weapon + " de dano em " + enemies.name + "!");
+                } else {
+                    System.out.println(enemies.name + " se defendeu completamente!");
+                }
+                break;
+
+            case 2:
+                Character.DoubleDefense = true;
+                System.out.println("Você está defendendo. Sua defesa dobrou por uma rodada.");
+                break;
+
+            default:
+                System.out.println("Ação inválida. Tente novamente.");
+        }
+
+        if (Character.DoubleDefense) {
+            Character.DoubleDefense = false;
+        }
+}
+    
+    //Turno do Adversário
+    private static void turnoAdversario(CustomCharacter Character, Enemies enemies, Scanner input) {
+        Random random = new Random();
+        int escolha = random.nextInt(3);
+
+        switch (escolha) {
+
+            case 0:
+                int danoCausado = Math.max(0, enemies.damage - (int)Character.armor);
+                if (danoCausado > 0) {
+                    Character.hp -= danoCausado;
+                    System.out.println(enemies.name + " causou " + danoCausado + " de dano em você!");
+                } else {
+                    System.out.println("Você se defendeu completamente contra o ataque de " + enemies.name + "!");
+                }
+                break;
+
+            case 1:
+                enemies.DoubleDefense = true;
+                System.out.println(enemies.name + " está defendendo. Sua defesa dobrou por uma rodada.");
+                break;
+        }
+
+        if (enemies.DoubleDefense) {
+            enemies.DoubleDefense = false;
+        }
+}
+   
+    //Adversário Aleatório
+    private static Enemies gerarAdversarioAleatorio(int nivel){
+    
+        Random random = new Random();
+        int escolha = random.nextInt(3);
+        int escolha2 = random.nextInt(2);
+        int escolha3 = random.nextInt(1);
+        
+        if(nivel==0){
+            
+            return switch (escolha) {
+                case 0 -> new Enemies("Goblin Ladrão", 40, 16, 3, 2);
+                case 1 -> new Enemies("Diabrete", 30, 12, 2, 3);
+                case 2 -> new Enemies("Orc", 50, 20, 4, 1);
+                default -> new Enemies("Inimigo Aleatório", 25, 14, 3, 2);
+            };
+            
+        }
+        
+        if(nivel==1){
+            
+            return switch (escolha2) {
+                case 0 -> new Enemies("Orc Guerreiro", 60, 16, 5, 4);
+                case 1 -> new Enemies("Demonio Corruptor", 70, 15, 14, 3);
+                default -> new Enemies("Inimigo Aleatório", 25, 14, 3, 2);
+            };
+            
+        }
+        
+        if(nivel==2){
+            
+            return switch (escolha3) {
+                case 0 -> new Enemies("Cavaleiro Infernal", 90, 40, 12, 10);
+                default -> new Enemies("Cavaleiro Infernal", 90, 40, 12, 10);
+            };
+            
+        }
+        return null;
+        
+    }  
+    
+    //Dado de 6 lados
+    private static int rolarD6() {
+        Random random = new Random();
+        return random.nextInt(6) + 1;
     }
 }

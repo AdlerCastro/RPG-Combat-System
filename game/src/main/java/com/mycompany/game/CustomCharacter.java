@@ -1,9 +1,11 @@
 package com.mycompany.game;
 
-//Classe para a customização do personagem
+//Valor Aleatório
 import java.util.Random;
 //Classe de customização do personagem
 public class CustomCharacter {
+    //Nivel do jogador
+    int nivelJogador;
     //Pontos de atributos
     int Points = 15;
     //Atributos do personagem
@@ -17,7 +19,7 @@ public class CustomCharacter {
     //Arma e Armadura
     double weapon;
     double armor;
-    
+    boolean DoubleDefense;
     
     public void Força(int PointStrenght){
         strenght += PointStrenght;
@@ -50,6 +52,16 @@ public class CustomCharacter {
         System.out.println("HP nos dados: "+hp);
         hp += PointConstitution;
         System.out.println("HP total: "+hp);
+    }
+    
+    //Pegar oo Valor da Agilidade
+    public int getAgility() {
+        return agility;
+    }
+    
+    //Pegar o Valor da Vida
+    public int getHP() {
+        return hp;
     }
     
     public void Informacoes(){
