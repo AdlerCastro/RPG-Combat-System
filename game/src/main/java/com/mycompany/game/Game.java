@@ -242,13 +242,12 @@ public class Game {
         Scanner input = new Scanner(System.in);
         Clean();
         
-        System.out.println("Kombat 1...FIGHT");
-        
         int rodada = 1;
-        input.nextLine();
         
-        while (rodada > 4) {
+        while (true) {
             System.out.println("Rodada " + rodada + "\n");
+            System.out.println("Kombat...FIGHT");
+            
             int agilidadeJogador = Character.getAgility();
             int agilidadeAdversario = enemies.agility;
 
