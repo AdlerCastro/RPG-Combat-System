@@ -132,7 +132,7 @@ public class Game {
                             Combat(Character, enemies);
                             if (Character.hp <= 0) {
                                 System.out.println("FALECEU, foi pro inferno.");
-                                System.out.println("");
+                                System.exit(0);
                                 break;
                             }
                             else
@@ -141,6 +141,7 @@ public class Game {
                             }
                             if (Character.nivelJogador == 3 && Character.hp > 0) {
                                 System.out.println("Você venceu o jogo! Parabéns!\n");
+                                System.exit(0);
                                 break;
                             }
                         }
